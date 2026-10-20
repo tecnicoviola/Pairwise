@@ -87,7 +87,7 @@ export async function generateMatches(req: AuthenticatedRequest, res: Response, 
       },
       select: { candidateId: true },
     });
-    const excludedCandidateIds = existingMatches.map((m) => m.candidateId);
+    const excludedCandidateIds = existingMatches.map((m: any) => m.candidateId);
 
     // Run deterministic TypeScript matching engine
     const recommendations = generateRecommendations(

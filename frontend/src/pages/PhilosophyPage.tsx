@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { AppLayout } from '../components/AppLayout';
 import { Compass, Scale, ShieldCheck, Sparkles, UserCheck, FileText } from 'lucide-react';
 
@@ -65,10 +65,7 @@ export const PhilosophyPage: React.FC = () => (
 
       <Section icon={UserCheck} title="Stated preferences come first">
         <p className="text-sm text-pw-muted leading-relaxed">
-          Each person’s own partner preferences take precedence. For the assessment, male customers also use default signals favouring younger,
-          shorter and lower-earning partners and alignment on children, while female customers emphasise profession, values and relocation.
-          These are defaults only, and any preference a customer states overrides them. Caste and religion are used only when a customer
-          explicitly lists them as a preference.
+          Stated partner preferences (age range, height range, preferred cities, diet and children) shape the scores. For the assessment, male customers also carry a core rule that favours younger, shorter and lower-earning partners, and candidates who break it lose points and are flagged. Female customers emphasise profession, values and relocation. Caste, religion and horoscope are stored for reference only and are not used in scoring.
         </p>
       </Section>
 

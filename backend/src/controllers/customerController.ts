@@ -98,7 +98,7 @@ export async function getCustomers(req: AuthenticatedRequest, res: Response, nex
     ]);
 
     // Attach calculated age
-    const customersWithAge = customers.map((c) => ({
+    const customersWithAge = customers.map((c: any) => ({
       ...c,
       age: calculateAge(c.dateOfBirth),
     }));
