@@ -1,0 +1,240 @@
+// Prisma schema for TDC Matchmaker Dashboard MVP
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  NON_BINARY
+  OTHER
+}
+
+enum MaritalStatus {
+  NEVER_MARRIED
+  DIVORCED
+  WIDOWED
+  AWAITING_DIVORCE
+}
+
+enum DecisionChoice {
+  YES
+  NO
+  MAYBE
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum JourneyStage {
+  NEW_LEAD
+  ONBOARDING
+  PROFILE_INCOMPLETE
+  VERIFICATION_PENDING
+  PROFILE_VERIFIED
+  READY_FOR_MATCHES
+  MATCH_SUGGESTED
+  INTRODUCTION_SENT
+  FEEDBACK_PENDING
+  FOLLOW_UP_REQUIRED
+  CLOSED
+}
+
+enum NoteCategory {
+  CALL
+  MEETING
+  FOLLOW_UP
+  GENERAL
+}
+
+enum MatchStatus {
+  SUGGESTED
+  APPROVED
+  SENT
+  ACCEPTED
+  DECLINED
+  FEEDBACK_PENDING
+  CLOSED
+}
+
+model Matchmaker {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  name      String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customers Customer[]
+  notes     Note[]
+  activities ActivityEvent[]
+}
+
+model Customer {
+  id                String             @id @default(uuid())
+  matchmakerId      String?
+  matchmaker        Matchmaker?        @relation(fields: [matchmakerId], references: [id], onDelete: SetNull)
+  
+  // Basic info
+  firstName         String
+  lastName          String
+  gender            Gender
+  dateOfBirth       DateTime
+  country           String             @default("India")
+  city              String
+  height            Float              // in cm
+  email             String             @unique
+  phone             String
+  
+  // Education & Career
+  undergraduateCollege String
+  degree            String
+  currentCompany    String
+  designation       String
+  income            Float              // annual amount
+  currency          String             @default("INR")
+  incomePeriod      String             @default("per annum")
+  
+  // Family & Background
+  maritalStatus     MaritalStatus      @default(NEVER_MARRIED)
+  languagesKnown    String[]           // Array of languages
+  numberOfSiblings  Int                @default(0)
+  caste             String?
+  religion          String?
+  motherTongue      String
+  
+  // Preferences & Future Plans
+  wantChildren      DecisionChoice     @default(MAYBE)
+  openToRelocation  DecisionChoice     @default(MAYBE)
+  openToPets        DecisionChoice     @default(MAYBE)
+  diet              String?            // Vegetarian, Non-Vegetarian, Eggetarian, Jain, Vegan
+  horoscopePreference DecisionChoice   @default(NO)
+  relationshipGoals String             @default("Marriage within 1-2 years")
+  hobbies           String[]           // Array of hobbies
+  
+  // Matchmaking Operational Status
+  journeyStage      JourneyStage       @default(READY_FOR_MATCHES)
+  verificationStatus VerificationStatus @default(VERIFIED)
+  profileCompleteness Int             @default(100)
+  lastContactDate   DateTime?
+  bioNotes          String?
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  partnerPreferences PartnerPreferences?
+  notes              Note[]
+  initiatedMatches   Match[]            @relation("CustomerMatches")
+  receivedMatches    Match[]            @relation("CandidateMatches")
+  activities         ActivityEvent[]
+
+  @@index([matchmakerId])
+  @@index([gender])
+  @@index([city])
+  @@index([journeyStage])
+  @@index([verificationStatus])
+}
+
+model PartnerPreferences {
+  id                 String          @id @default(uuid())
+  customerId         String          @unique
+  customer           Customer        @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  
+  preferredAgeMin    Int?            @default(21)
+  preferredAgeMax    Int?            @default(45)
+  preferredHeightMin Float?          // in cm
+  preferredHeightMax Float?          // in cm
+  preferredCities    String[]
+  preferredEducation String[]
+  preferredProfessions String[]
+  preferredIncomeMin Float?
+  
+  preferredRelocation DecisionChoice?
+  preferredChildren   DecisionChoice?
+  preferredPets       DecisionChoice?
+  preferredDiet       String[]
+  preferredReligions  String[]
+  preferredMaritalStatus MaritalStatus[]
+  
+  dealbreakers       String[]
+  specialNotes       String?
+
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+}
+
+model Note {
+  id           String       @id @default(uuid())
+  customerId   String
+  customer     Customer     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  matchmakerId String
+  matchmaker   Matchmaker   @relation(fields: [matchmakerId], references: [id], onDelete: Cascade)
+  
+  content      String
+  category     NoteCategory @default(GENERAL)
+  
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([customerId])
+  @@index([matchmakerId])
+}
+
+model Match {
+  id                      String      @id @default(uuid())
+  customerId              String
+  customer                Customer    @relation("CustomerMatches", fields: [customerId], references: [id], onDelete: Cascade)
+  candidateId             String
+  candidate               Customer    @relation("CandidateMatches", fields: [candidateId], references: [id], onDelete: Cascade)
+  
+  overallScore            Float       // 0 to 100
+  customerToCandidateScore Float      // Directional score 1
+  candidateToCustomerScore Float      // Directional score 2
+  
+  compatibilityLabel      String      // "High Potential", "Promising", "Needs Review"
+  positiveReasons         String[]
+  potentialMismatches     String[]
+  unknownDetails          String[]
+  
+  status                  MatchStatus @default(SUGGESTED)
+  aiExplanation           String?
+  introductionDraft       String?
+  sentAt                  DateTime?
+  
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+
+  @@unique([customerId, candidateId])
+  @@index([customerId])
+  @@index([candidateId])
+  @@index([status])
+}
+
+model ActivityEvent {
+  id           String      @id @default(uuid())
+  customerId   String
+  customer     Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  matchmakerId String?
+  matchmaker   Matchmaker? @relation(fields: [matchmakerId], references: [id], onDelete: SetNull)
+  
+  eventType    String      // "NOTE_ADDED", "MATCH_SUGGESTED", "INTRODUCTION_SENT", "STAGE_CHANGED", "VERIFICATION_UPDATED"
+  description  String
+  metadata     Json?
+  
+  createdAt    DateTime    @default(now())
+
+  @@index([customerId])
+}

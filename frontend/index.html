@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><circle cx='50' cy='50' r='48' fill='%23F5EDE7'/><path d='M 33 28 C 20 40 20 62 33 74 C 45 82 58 78 68 66 C 54 66 42 56 42 42 C 42 32 46 26 50 20 C 42 22 36 24 33 28 Z' fill='%23482638'/><path d='M 67 72 C 80 60 80 38 67 26 C 55 18 42 22 32 34 C 46 34 58 44 58 58 C 58 68 54 74 50 80 C 58 78 64 76 67 72 Z' fill='%23B87988'/><ellipse cx='50' cy='50' rx='6.5' ry='11' fill='%23F5EDE7' transform='rotate(32 50 50)'/></svg>" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('pw_theme');
+          if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pairwise — Thoughtful Matches. Human-First Decisions.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-pw-ivory font-sans antialiased text-pw-text">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

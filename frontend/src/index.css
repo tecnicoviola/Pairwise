@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens (RGB channels so Tailwind opacity modifiers work) ---------- */
+:root {
+  --pw-ivory: 248 244 239;
+  --pw-card: 255 255 255;
+  --pw-plum: 72 38 56;
+  --pw-burgundy: 100 45 67;
+  --pw-rose: 184 121 136;
+  --pw-blush: 238 228 230;
+  --pw-text: 41 36 42;
+  --pw-muted: 117 106 114;
+  --pw-border: 232 223 218;
+  --pw-sand: 239 231 222;
+  --pw-gold: 197 160 89;
+  color-scheme: light;
+}
+
+.dark {
+  --pw-ivory: 23 18 26;
+  --pw-card: 33 26 37;
+  --pw-plum: 94 46 70;
+  --pw-burgundy: 150 66 96;
+  --pw-rose: 214 150 166;
+  --pw-blush: 52 37 47;
+  --pw-text: 241 233 238;
+  --pw-muted: 183 168 177;
+  --pw-border: 63 49 60;
+  --pw-sand: 44 34 42;
+  --pw-gold: 214 180 110;
+  color-scheme: dark;
+}
+
+@layer base {
+  body {
+    @apply bg-pw-ivory text-pw-text antialiased font-sans min-h-screen selection:bg-pw-blush selection:text-pw-plum;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+  :focus-visible {
+    outline: 2px solid rgb(var(--pw-rose));
+    outline-offset: 2px;
+  }
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+/* ---------- Dark-mode adaptation of utility classes used across pages ---------- */
+.dark .bg-white { background-color: rgb(var(--pw-card)); }
+.dark .bg-white\/80, .dark .bg-white\/60 { background-color: rgb(var(--pw-card) / 0.7); }
+.dark .text-pw-plum, .dark .text-pw-burgundy { color: rgb(var(--pw-rose)); }
+.dark .hover\:text-pw-plum:hover { color: rgb(var(--pw-text)); }
+.dark .border-slate-200, .dark .border-cream-200 { border-color: rgb(var(--pw-border)); }
+.dark .text-slate-900, .dark .text-slate-800, .dark .text-slate-700 { color: rgb(var(--pw-text)); }
+.dark .text-slate-600, .dark .text-slate-500 { color: rgb(var(--pw-muted)); }
+.dark .bg-slate-50, .dark .bg-slate-100, .dark .bg-cream-100 { background-color: rgb(var(--pw-blush)); }
+.dark [class*="bg-emerald-50"], .dark [class*="bg-emerald-100"] { background-color: rgb(16 185 129 / 0.14); }
+.dark [class*="bg-amber-50"], .dark [class*="bg-amber-100"] { background-color: rgb(245 158 11 / 0.14); }
+.dark [class*="bg-rose-50"], .dark [class*="bg-rose-100"], .dark [class*="bg-red-50"] { background-color: rgb(244 63 94 / 0.14); }
+.dark [class*="bg-sky-50"], .dark [class*="bg-blue-50"], .dark [class*="bg-indigo-50"] { background-color: rgb(56 189 248 / 0.14); }
+.dark [class*="text-emerald-"] { color: #6ee7b7; }
+.dark [class*="text-amber-"] { color: #fcd34d; }
+.dark [class*="text-rose-"], .dark [class*="text-red-"] { color: #fda4af; }
+.dark [class*="text-sky-"], .dark [class*="text-blue-"], .dark [class*="text-indigo-"] { color: #7dd3fc; }
+.dark [class*="border-emerald-"], .dark [class*="border-amber-"], .dark [class*="border-rose-"], .dark [class*="border-red-"], .dark [class*="border-sky-"], .dark [class*="border-blue-"] { border-color: rgb(var(--pw-border)); }
+.dark input, .dark select, .dark textarea { color: rgb(var(--pw-text)); }
+.dark input::placeholder, .dark textarea::placeholder { color: rgb(var(--pw-muted) / 0.7); }
+
+/* ---------- Scroll-reveal ---------- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Decorative paper texture for the sketch-style profile cards */
+.paper {
+  background-image:
+    radial-gradient(rgb(var(--pw-rose) / 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgb(var(--pw-card)) 0%, rgb(var(--pw-sand)) 100%);
+  background-size: 14px 14px, 100% 100%;
+}
+
+/* ---------- Respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}

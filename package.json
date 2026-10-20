@@ -1,0 +1,32 @@
+{
+  "name": "tdc-matchmaker-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Date Crew (TDC) Matchmaker Dashboard and Matching Engine MVP",
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:backend": "npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "test:backend": "npm --prefix backend run test",
+    "prisma:generate": "npx prisma generate --schema=./prisma/schema.prisma",
+    "prisma:push": "npx prisma db push --schema=./prisma/schema.prisma",
+    "prisma:seed": "npx tsx prisma/seed.ts"
+  },
+  "keywords": [
+    "matchmaking",
+    "crm",
+    "ai",
+    "dashboard"
+  ],
+  "author": "Suhani",
+  "license": "ISC",
+  "devDependencies": {
+    "pglite-server": "^0.1.5",
+    "prisma": "^6.19.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3"
+  }
+}
