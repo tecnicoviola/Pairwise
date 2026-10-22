@@ -708,8 +708,7 @@ These are fictional demo credentials defined in the seed script. The login page 
 ---
 
 ## Deployment
-
-**Status: not deployed, and no deployment configuration is in the repository.** Live URL: `<DEPLOYED_FRONTEND_URL>` (placeholder).
+** Live URL: `https://pairwisedcrew.netlify.app/` (placeholder).
 
 Suggested approach for this architecture:
 
