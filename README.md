@@ -780,18 +780,6 @@ These steps are guidance and have not been run for this project.
 
 **Assumptions.** Matching is between opposite genders, as in the brief. Explicit partner preferences feed the dimension scores, while the male core rule is applied on top because the brief states it as a requirement. Missing data is treated as unknown, not as a match. Caste, religion and horoscope are stored but not scored. All profiles are fictional, "sending" is mocked, weights are design choices rather than calibrated values, and the matchmaker makes the final decision.
 
-### Submission checklist
-
-- [ ] Live demo URL: `<DEPLOYED_FRONTEND_URL>`
-- [ ] Backend health URL: `<DEPLOYED_BACKEND_URL>/api/health`
-- [ ] GitHub repository URL: `<GITHUB_REPOSITORY_URL>`
-- [ ] Sample credentials: `demo@thedatecrew.com` / `matchmaker123` (seeded demo account)
-- [ ] Matching logic write-up (above)
-- [ ] Resume and portfolio links: `<YOUR_RESUME_LINK>`, `<YOUR_PORTFOLIO_LINK>`
-- [ ] Send to `tech@thedatecrew.com`
-- [ ] Subject: `Full Stack Developer Internship – Suhani – Assignment`
-
----
 
 ## Research references
 
