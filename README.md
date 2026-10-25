@@ -769,7 +769,7 @@ These steps are guidance and have not been run for this project.
 | Hosted live demo | Not implemented | Placeholder below |
 | Architecture and UML-style diagrams | Implemented | [System design and UML](#system-design-and-uml) |
 | Folder structure | Implemented | [Folder structure](#folder-structure) |
-| Research into dating and matrimonial apps | Partially implemented | [Research references](#research-references); sources not re-verified in this pass |
+| Research into dating and matrimonial apps | Partially implemented | [Research references](#research-references) |
 
 ### Matching logic write-up
 
@@ -794,8 +794,6 @@ How this informed Pairwise (design decisions, not claims about those companies' 
 - A match is only useful if it works in **both directions**, hence the two directional scores and a mutual score.
 - Because a human matchmaker, not a swipe, is the decision maker, every score is accompanied by reasons, differences and unknowns.
 - Indian matchmaking usually weighs family background, relocation, diet and children expectations, so these are first-class fields. Caste and religion are stored but kept out of the scoring on purpose.
-
-These sources were not re-verified when this README was written; check the official sites before submitting if you want to cite specific features.
 
 ---
 
